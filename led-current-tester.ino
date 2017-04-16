@@ -94,14 +94,14 @@ void setFocusValue (int countValue, int rgbValue) {
 }
 
 void decreaseFocusValue(int amount) {
+  values[focusRow] -= amount;
   if (values[focusRow] < amount) {
     if (focusRow == COUNT_ROW) {
-      values[focusRow] += NUM_LEDS;
+      values[focusRow] = 1;
     } else {
-      values[focusRow] += 255;
+      values[focusRow] = 0;
     }
   }
-  values[focusRow] -= amount;
 
   drawLabelValue(focusRow);
   refreshLed();
@@ -111,11 +111,11 @@ void increaseFocusValue(int amount) {
   values[focusRow] += amount;
   if (focusRow == COUNT_ROW) {
     if (values[focusRow] > NUM_LEDS) {
-      values[focusRow] %= NUM_LEDS;
+      values[focusRow] = NUM_LEDS;
     }
   } else {
     if (values[focusRow] > 255) {
-      values[focusRow] %= 255;
+      values[focusRow] = 255;
     }
   }
 
