@@ -39,7 +39,7 @@ void onKeyPress (byte key) {
     if (focusRow != COUNT_ROW) {
       drawLabelFocus(focusRow, BACKGROUND); // Erase
       focusRow = COUNT_ROW;
-      drawLabelFocus(key, YELLOW);
+      drawLabelFocus(COUNT_ROW, YELLOW);
     }
   }
 

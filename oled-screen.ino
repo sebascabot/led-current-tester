@@ -2,18 +2,21 @@
 // -----------------
 
 #include "configuration.h"
+#include "Pill.h"
 
+#ifndef SSD1331_CMD_FILL
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1331.h>
+#endif
 
 Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
 
 #define RADIUS 3
-#define ROW_WIDTH 44
+#define ROW_WIDTH 40
 #define ROW_HEIGHT 13
 #define ROW_PADDING 3
-#define LEFT_PADDING 8
-#define TEXT_X_OFFSET 5
+#define LEFT_PADDING 7
+#define TEXT_X_OFFSET 4
 #define TEXT_Y_OFFSET 3
 
 void initOledScreen() {
@@ -24,9 +27,9 @@ void initOledScreen() {
   Serial.println("End FillScreen");
 
   drawLabel(BRIGHTNESS_ROW, "*: ");
-  drawLabel(RED_ROW,   "R: ");
-  drawLabel(GREEN_ROW, "G: ");
-  drawLabel(BLUE_ROW,  "B: ");
+  drawLabel(RED_ROW,   "R:");
+  drawLabel(GREEN_ROW, "G:");
+  drawLabel(BLUE_ROW,  "B:");
 
   drawLabelFocus(focusRow, YELLOW);
 
@@ -34,6 +37,11 @@ void initOledScreen() {
   drawLabelValue(RED_ROW);
   drawLabelValue(GREEN_ROW);
   drawLabelValue(BLUE_ROW);
+
+  Pill countPill = Pill(display, 49, 0, 0xc424, '#', values[5]);
+  countPill.draw();
+  // countPill.drawFocus();
+  countPill.drawValue();
 }
 
 void drawLabelFocus(byte row, unsigned int color) {
@@ -58,7 +66,7 @@ void drawLabelFocus(byte row, unsigned int color) {
 
 void drawLabelValue(byte row) {
 
-#define FIXME 16
+#define FIXME 14
 
   unsigned int color = row2color[row];
   unsigned int textColor = (color == WHITE ? BLACK : WHITE);
