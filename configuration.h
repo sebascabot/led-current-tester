@@ -4,9 +4,9 @@
 // LED
 
 #define LED_PIN     5
-#define COLOR_ORDER GRB
-#define CHIPSET     WS2812B
-#define NUM_LEDS    100
+#define LED_COLOR_ORDER GRB
+#define LED_CHIPSET     WS2812B
+#define LED_COUNT    100
 
 #define BRIGHTNESS  200
 
@@ -28,7 +28,6 @@
 #define YELLOW          0xFFE0
 #define WHITE           0xFFFF
 
-#define BACKGROUND 0x8888
 
 // TouchPad
 
@@ -38,10 +37,14 @@
 
 // MAIN
 
-#define COUNT_ROW 1
+#define BRIGHTNESS_ROW 1
 #define RED_ROW 2
 #define GREEN_ROW 3
 #define BLUE_ROW 4
+#define COUNT_ROW 5
+
+// Background color
+#define BACKGROUND 0x8888
 
 #endif
 

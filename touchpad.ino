@@ -40,7 +40,7 @@ void processKeyEvent () {
   now = millis();
 
   // Call Press/Release hadler for each button with debouncing
-  
+
   for (byte key = 0; key < KEY_COUNT; key += 1) {
     unsigned int padBit = 1 << (15 - key);
     int before = keyPressed[key];

@@ -1,11 +1,11 @@
 #include "configuration.h"
 
-int values[5] = { 0, 1, 100, 0, 0 };
-int printedValues[5] = { 0, 0, 0, 0, 0 };
+int values[6] = { 0, 255, 100, 0, 0, 1 };
+int printedValues[6] = { 0, 0, 0, 0, 0, 0 };
 
-unsigned int row2color[5] = { 0, WHITE, RED, GREEN, BLUE };
+unsigned int row2color[6] = { 0, WHITE, RED, GREEN, BLUE, MAGENTA };
 
-byte focusRow = COUNT_ROW; // Initial row with the focus
+byte focusRow = BRIGHTNESS_ROW; // Initial row with the focus
 
 void setup(void) {
   Serial.begin(9600);
@@ -20,10 +20,25 @@ void loop() {
 }
 
 void onKeyPress (byte key) {
-  if (key <= 4) {
+  if (key == 1) {
+    if (focusRow != BRIGHTNESS_ROW) {
+      drawLabelFocus(focusRow, BACKGROUND); // Erase
+      focusRow = BRIGHTNESS_ROW;
+    }
+  }
+
+  if (key >= 2 && key <= 4) { // Assumption: RGB keys map to R/G/B_ROW idx
     if (focusRow != key) {
       drawLabelFocus(focusRow, BACKGROUND); // Erase
       focusRow = key;
+      drawLabelFocus(key, YELLOW);
+    }
+  }
+
+  if (key == 6) { // Set to mid values
+    if (focusRow != COUNT_ROW) {
+      drawLabelFocus(focusRow, BACKGROUND); // Erase
+      focusRow = COUNT_ROW;
       drawLabelFocus(key, YELLOW);
     }
   }
@@ -64,12 +79,9 @@ void onKeyPress (byte key) {
     setFocusValue(0, 0);
   }
 
-  if (key == 6) { // Set to mid values
-    setFocusValue(150, 128);
-  }
 
   if (key == 15) { // Set to max
-    setFocusValue(NUM_LEDS, 255);
+    setFocusValue(LED_COUNT, 255);
   }
 
   Serial.print("Pad #");
@@ -90,28 +102,28 @@ void setFocusValue (int countValue, int rgbValue) {
     values[focusRow] = rgbValue;
   }
   drawLabelValue(focusRow);
-  refreshLed();
+  showLed();
 }
 
 void decreaseFocusValue(int amount) {
   values[focusRow] -= amount;
   if (values[focusRow] < amount) {
     if (focusRow == COUNT_ROW) {
-      values[focusRow] = 1;
+      values[focusRow] = 0;
     } else {
       values[focusRow] = 0;
     }
   }
 
   drawLabelValue(focusRow);
-  refreshLed();
+  showLed();
 }
 
 void increaseFocusValue(int amount) {
   values[focusRow] += amount;
   if (focusRow == COUNT_ROW) {
-    if (values[focusRow] > NUM_LEDS) {
-      values[focusRow] = NUM_LEDS;
+    if (values[focusRow] > LED_COUNT) {
+      values[focusRow] = LED_COUNT;
     }
   } else {
     if (values[focusRow] > 255) {
@@ -120,6 +132,6 @@ void increaseFocusValue(int amount) {
   }
 
   drawLabelValue(focusRow);
-  refreshLed();
+  showLed();
 }
 
