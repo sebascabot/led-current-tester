@@ -1,18 +1,52 @@
 #include "configuration.h"
 
-int values[6] = { 0, 255, 100, 0, 0, 1 };
-int printedValues[6] = { 0, 0, 0, 0, 0, 0 };
+#include <FastLED.h>
+#include "MyOledScreen.h"
+#include "Pill.h"
 
-unsigned int row2color[6] = { 0, WHITE, RED, GREEN, BLUE, MAGENTA };
+CRGB leds[LED_COUNT];
 
-byte focusRow = BRIGHTNESS_ROW; // Initial row with the focus
+#if OLED_MOSI == 11 && OLED_SCLK == 13
+  // Arduino Hardware SPI (Fast)
+  MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_RST);
+#else
+  MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_MOSI, OLED_SCLK, OLED_RST);
+#endif
+
+// TODO: build a Pill array, then work with the array
+Pill brightnessPill = Pill(0, 0, OLED_WHITE, '*', 0, 255, INIT_BRIGHTNESS);
+Pill redPill = Pill(0, 16, OLED_RED, 'R', 0, 255, INIT_RED);
+Pill greenPill = Pill(0, 32, OLED_GREEN, 'G', 0, 255, INIT_GREEN);
+Pill bluePill = Pill(0, 48, OLED_BLUE, 'B', 0, 255, INIT_BLUE);
+Pill countPill = Pill(49, 0, OLED_CYAN, '#', 0, 100, INIT_COUNT);
+
+Pill *focusPill = &brightnessPill; // Initial pill with the focus
 
 void setup(void) {
   Serial.begin(9600);
+  Serial.println(redPill.getValue(), DEC);
+  Serial.println("Init Led Strip ...");
 
+  // Init LED Strip
+  Serial.println("Init Led Strip ...");
+  FastLED.addLeds<LED_CHIPSET, LED_PIN, LED_COLOR_ORDER>(leds, LED_COUNT).setCorrection( TypicalLEDStrip );
+  showLed();
+
+  Serial.println("Init Touchpad ...");
   initTouchpad();
-  initOledScreen();
-  initLed();
+
+  // Init OLED Screen
+  Serial.println("Init OLED Screen ...");
+  oledScreen.begin();
+  oledScreen.fillScreen(OLED_BACKGROUND_COLOR);
+
+  brightnessPill.draw();
+  redPill.draw();
+  greenPill.draw();
+  bluePill.draw();
+  countPill.draw();
+
+  focusPill->drawFocus(true);
 }
 
 void loop() {
@@ -20,69 +54,74 @@ void loop() {
 }
 
 void onKeyPress (byte key) {
-  if (key == 1) {
-    if (focusRow != BRIGHTNESS_ROW) {
-      drawLabelFocus(focusRow, BACKGROUND); // Erase
-      focusRow = BRIGHTNESS_ROW;
-    }
+  switch (key) {
+    case 1:
+      // Brightness Pill
+      updateFocus(&brightnessPill);
+      break;
+
+    case 2:
+      // Red Pill
+      updateFocus(&redPill);
+      break;
+
+    case 3:
+      // Green Pill
+      updateFocus(&greenPill);
+      break;
+
+    case 4:
+      // Blue Pill
+      updateFocus(&bluePill);
+      break;
+
+    case 6:
+      // Count Pill
+      updateFocus(&countPill);
+      break;
+
+    // ± 1
+    case 5:
+      focusPill->increaseValueBy(1);
+      break;
+    case 7:
+      focusPill->decreaseValueBy(1);
+      break;
+
+    // ± 5
+    case 9:
+      focusPill->increaseValueBy(5);
+      break;
+    case 8:
+      focusPill->decreaseValueBy(5);
+      break;
+
+    // ± 10
+    case 11:
+      focusPill->increaseValueBy(10);
+      break;
+    case 12:
+      focusPill->decreaseValueBy(5);
+      break;
+
+    // ± 25
+    case 10:
+      focusPill->increaseValueBy(25);
+      break;
+    case 13:
+      focusPill->decreaseValueBy(25);
+      break;
+
+    // Set Min/Max
+    case 14: // Min
+      focusPill->setValueToMinimum();
+      break;
+    case 15: // Max
+      focusPill->setValueToMaximum();
+      break;
   }
 
-  if (key >= 2 && key <= 4) { // Assumption: RGB keys map to R/G/B_ROW idx
-    if (focusRow != key) {
-      drawLabelFocus(focusRow, BACKGROUND); // Erase
-      focusRow = key;
-      drawLabelFocus(key, YELLOW);
-    }
-  }
-
-  if (key == 6) { // Set to mid values
-    if (focusRow != COUNT_ROW) {
-      drawLabelFocus(focusRow, BACKGROUND); // Erase
-      focusRow = COUNT_ROW;
-      drawLabelFocus(COUNT_ROW, YELLOW);
-    }
-  }
-
-  if (key == 7) {
-    decreaseFocusValue(1);
-  }
-
-  if (key == 5) {
-    increaseFocusValue(1);
-  }
-
-  if (key == 8) {
-    decreaseFocusValue(5);
-  }
-
-  if (key == 9) {
-    increaseFocusValue(5);
-  }
-
-  if (key == 10) {
-    increaseFocusValue(25);
-  }
-
-  if (key == 13) {
-    decreaseFocusValue(25);
-  }
-
-  if (key == 11) {
-    increaseFocusValue(10);
-  }
-
-  if (key == 12) {
-    decreaseFocusValue(10);
-  }
-
-  if (key == 14) { // Set to min (0)
-    setFocusValue(0, 0);
-  }
-
-
-  if (key == 15) { // Set to max
-    setFocusValue(LED_COUNT, 255);
-  }
+  showLed();
 
   Serial.print("Pad #");
   Serial.print(key, DEC);
@@ -95,43 +134,23 @@ void onKeyRelease (byte key) {
   Serial.println(" Released");
 }
 
-void setFocusValue (int countValue, int rgbValue) {
-  if (focusRow == COUNT_ROW) {
-    values[focusRow] = countValue;
-  } else {
-    values[focusRow] = rgbValue;
+void updateFocus(Pill *targetPill) {
+  if (focusPill != targetPill) {
+    focusPill->drawFocus(false);
+    focusPill = targetPill;
+    focusPill->drawFocus(true);
   }
-  drawLabelValue(focusRow);
-  showLed();
 }
 
-void decreaseFocusValue(int amount) {
-  values[focusRow] -= amount;
-  if (values[focusRow] < amount) {
-    if (focusRow == COUNT_ROW) {
-      values[focusRow] = 0;
-    } else {
-      values[focusRow] = 0;
-    }
+void showLed() {
+  CRGB myColor = CRGB(redPill.getValue(), greenPill.getValue(), bluePill.getValue());
+  int myCount = countPill.getValue();
+
+  FastLED.setBrightness(brightnessPill.getValue());
+
+  for (int i = 0; i < LED_COUNT; i += 1) {
+    leds[i] = (i < myCount ? myColor : CRGB::Black);
   }
 
-  drawLabelValue(focusRow);
-  showLed();
+  FastLED.show();
 }
-
-void increaseFocusValue(int amount) {
-  values[focusRow] += amount;
-  if (focusRow == COUNT_ROW) {
-    if (values[focusRow] > LED_COUNT) {
-      values[focusRow] = LED_COUNT;
-    }
-  } else {
-    if (values[focusRow] > 255) {
-      values[focusRow] = 255;
-    }
-  }
-
-  drawLabelValue(focusRow);
-  showLed();
-}
-

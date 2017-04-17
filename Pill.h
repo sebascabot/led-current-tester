@@ -2,11 +2,6 @@
 #define PILL_H
 
 #include <Arduino.h>
-#ifndef SSD1331_CMD_FILL
-  #include <Adafruit_GFX.h>
-  #include <Adafruit_SSD1331.h>
-#endif
-#include "configuration.h"
 
 class Pill {
   private:
@@ -15,17 +10,24 @@ class Pill {
     byte _y;
     unsigned int _color;
     char _label;
+    int _min;
+    int _max;
     int _value;
-    Adafruit_SSD1331 _display;
 
   public:
-    Pill(Adafruit_SSD1331 display, byte x, byte y, unsigned int color, char label, int value);
-    ~Pill();
+    Pill(byte x, byte y, unsigned int color, char label, int min, int max, int value);
+
     void draw();
-    void focus();
-    void update(int value);
-    void drawFocus();
-    void drawValue();
+    void drawFocus(boolean isFocus);
+    int getValue();
+    
+    // Following method, redraw after the change
+    void setValue(int value);
+    void setValueToMinimum();
+    void setValueToMaximum();
+    void increaseValueBy(int amount);
+    void decreaseValueBy(int amount);
+
 };
 
 #endif

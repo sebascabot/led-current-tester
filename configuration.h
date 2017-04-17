@@ -3,48 +3,46 @@
 
 // LED
 
-#define LED_PIN     5
+#define LED_PIN         5
 #define LED_COLOR_ORDER GRB
 #define LED_CHIPSET     WS2812B
-#define LED_COUNT    100
-
-#define BRIGHTNESS  200
+#define LED_COUNT       100
 
 // OLED Screen
 
-#define sclk 13
-#define mosi 11
-#define cs   10
-#define rst  9
-#define dc   8
+#define OLED_CS   10
+#define OLED_RST  9
+#define OLED_DC   8
+// NOTE: Arduino Hardware SPI SCLK=13 an MOSI=11 is fast, otherwise slow.
+#define OLED_SCLK 13
+#define OLED_MOSI 11
 
 // Color definitions
-#define BLACK           0x0000
-#define BLUE            0x001F
-#define RED             0xF800
-#define GREEN           0x07E0
-#define CYAN            0x07FF
-#define MAGENTA         0xF81F
-#define YELLOW          0xFFE0
-#define WHITE           0xFFFF
+#define OLED_BLACK            0x0000
+#define OLED_BLUE             0x001F
+#define OLED_RED              0xF800
+#define OLED_GREEN            0x07E0
+#define OLED_CYAN             0x07FF
+#define OLED_MAGENTA          0xF81F
+#define OLED_YELLOW           0xFFE0
+#define OLED_WHITE            0xFFFF
 
+#define OLED_BACKGROUND_COLOR 0x8888
 
 // TouchPad
 
-#define ttp229 (0xAF>>1)
-#define KEY_COUNT 15
-#define DEBOUNCE_TIME 50
+#define TP_TTP229 (0xAF>>1)
+
+#define TP_KEY_COUNT     15
+#define TP_DEBOUNCE_TIME 50
 
 // MAIN
 
-#define BRIGHTNESS_ROW 1
-#define RED_ROW 2
-#define GREEN_ROW 3
-#define BLUE_ROW 4
-#define COUNT_ROW 5
-
-// Background color
-#define BACKGROUND 0x8888
+// Default initial value
+#define INIT_BRIGHTNESS 200
+#define INIT_RED        25
+#define INIT_GREEN      50
+#define INIT_BLUE       100
+#define INIT_COUNT      1
 
 #endif
-

@@ -2,11 +2,10 @@
 
 #include <Wire.h>
 
-unsigned long keyPressed[KEY_COUNT]; // In milli
+unsigned long keyPressed[TP_KEY_COUNT]; // In milli
 unsigned int keyPress = 0; // One bit for each button
 
 void initTouchpad() {
-  Serial.println("Wire begin ...");
   Wire.begin();
 }
 
@@ -14,7 +13,7 @@ void checkKeypad () {
   static boolean pendingRequest = false;
 
   if (!pendingRequest) {
-    Wire.requestFrom(ttp229, 2, true);
+    Wire.requestFrom(TP_TTP229, 2, true);
     pendingRequest = true;
   }
 
@@ -41,7 +40,7 @@ void processKeyEvent () {
 
   // Call Press/Release hadler for each button with debouncing
 
-  for (byte key = 0; key < KEY_COUNT; key += 1) {
+  for (byte key = 0; key < TP_KEY_COUNT; key += 1) {
     unsigned int padBit = 1 << (15 - key);
     int before = keyPressed[key];
 
@@ -55,7 +54,7 @@ void processKeyEvent () {
         onKeyPress(key + 1); // Map 0-15 => 1-16
       }
     } else { // Pad Untouch
-      if (before && (now - before > DEBOUNCE_TIME)) {
+      if (before && (now - before > TP_DEBOUNCE_TIME)) {
         keyPress &= padBit;
         keyPressed[key] = 0;
 

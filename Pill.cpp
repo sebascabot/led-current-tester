@@ -1,67 +1,52 @@
 #include "Pill.h"
 
-#define PILL_RADIUS 3
-#define PILL_WIDTH 40
-#define PILL_HEIGHT 13
-#define PILL_TOP_PADDING 3
-#define PILL_LEFT_FOCUS_SIGN_SPACE 7
-#define PILL_TEXT_X_OFFSET 4
-#define PILL_TEXT_Y_OFFSET 3
-#define PILL_VALUE_X_OFFSET 14
+#include "configuration.h"
+#include "MyOledScreen.h"
 
+extern MyOledScreen oledScreen;
 
-Pill::Pill(Adafruit_SSD1331 display, byte x, byte y, unsigned int color, char label, int value) : _display(display), _x(x), _y(y), _color(color), _label(label), _value(value) {
-  /*nothing to create */
-}
-
-Pill::~Pill() {
-  /*nothing to destroy */
-}
+Pill::Pill(byte x, byte y, unsigned int color, char label, int min, int max, int value) :
+  _x(x), _y(y), _color(color), _label(label), _min(min), _max(max), _value(value)
+{}
 
 void Pill::draw() {
-  byte x = _x + PILL_LEFT_FOCUS_SIGN_SPACE;
-  byte y = _y;
-
-  _display.fillRoundRect(x, y, PILL_WIDTH, PILL_HEIGHT, PILL_RADIUS, _color);
-
-  _display.setCursor(x + PILL_TEXT_X_OFFSET, y + PILL_TEXT_Y_OFFSET);
-  _display.setTextColor(_color == WHITE ? BLACK : WHITE); // Avoid White on White
-  _display.setTextSize(1);
-  _display.print(_label);
-  _display.print(':');
+  oledScreen.drawPill(_x, _y, _color, _label);
+  oledScreen.drawPillValue(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _value);
 }
 
-void Pill::focus() {
+void Pill::drawFocus(boolean isFocus) {
+  unsigned int color = isFocus ? OLED_YELLOW : OLED_BACKGROUND_COLOR;
+  oledScreen.drawPillFocus(_x, _y, color);
 }
 
-void Pill::update(int value) {
+int Pill::getValue() {
+  return _value;
 }
 
-void Pill::drawFocus() {
-  // Left triangle
-  unsigned int x1 = _x;
-  unsigned int y1 = _y + 1;
+void Pill::setValue(int value) {
 
-  unsigned int x2 = _x + 5;
-  unsigned int y2 = _y + 6;
+  // Erase old value
+  oledScreen.drawPillValue(_x, _y, _color, _value);
 
-  unsigned int x3 = _x;
-  unsigned int y3 = _y + 11;
-
-  _display.fillTriangle(x1, y1, x2, y2, x3, y3, YELLOW);
+  // Update new value and Draw
+  _value = value;
+  oledScreen.drawPillValue(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _value);
 }
 
-void Pill::drawValue() {
-  byte x = _x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + PILL_VALUE_X_OFFSET; 
-  byte y = _y + PILL_TEXT_Y_OFFSET;
-
-  _display.setTextSize(1);
-
-  _display.setCursor(x, y);
-  _display.setTextColor(_color);
-  _display.print(String(_value, DEC));
-
-  _display.setCursor(x, y);
-  _display.setTextColor(_color == WHITE ? BLACK : WHITE);
-  _display.print(String(_value, DEC));
+void Pill::setValueToMinimum() {
+  setValue(_min);
 }
+
+void Pill::setValueToMaximum() {
+  setValue(_max);
+}
+
+void Pill::increaseValueBy(int amount) {
+  setValue(min(_max, _value + amount));
+}
+
+void Pill::decreaseValueBy(int amount) {
+  setValue(max(_min, _value - amount));
+}
+
+
