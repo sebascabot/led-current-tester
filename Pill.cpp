@@ -11,7 +11,7 @@ Pill::Pill(byte x, byte y, unsigned int color, char label, int min, int max, int
 
 void Pill::draw() {
   oledScreen.drawPill(_x, _y, _color, _label);
-  oledScreen.drawPillValue(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _value);
+  setValue(_value);
 }
 
 void Pill::drawFocus(boolean isFocus) {
@@ -24,13 +24,17 @@ int Pill::getValue() {
 }
 
 void Pill::setValue(int value) {
-
-  // Erase old value
-  oledScreen.drawPillValue(_x, _y, _color, _value);
-
-  // Update new value and Draw
   _value = value;
-  oledScreen.drawPillValue(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _value);
+
+  String padding = ""; // 3 digit value (no padding)
+  if (value < 100) {
+    padding += " ";    // 2 digit value (add one padding => 1 left digit padding)
+  }
+  if (value < 10) {
+    padding += " ";    // 1 digit value (add one padding => 2 left digit padding)
+  }
+
+  oledScreen.drawPillText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, padding + _value);
 }
 
 void Pill::setValueToMinimum() {

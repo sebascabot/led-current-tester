@@ -34,7 +34,7 @@ void MyOledScreen::drawPill(byte x, byte y, unsigned int color, char label) {
 }
 
 void MyOledScreen::drawPillFocus(byte x, byte y, unsigned int color) {
-  // Left triangle (right pointing) 
+  // Left triangle (right pointing)
   unsigned int x1 = x;
   unsigned int y1 = y + 1;
 
@@ -47,13 +47,13 @@ void MyOledScreen::drawPillFocus(byte x, byte y, unsigned int color) {
   fillTriangle(x1, y1, x2, y2, x3, y3, color);
 }
 
-void MyOledScreen::drawPillValue(byte x, byte y, unsigned int color, int value) {
-  x = x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + PILL_VALUE_X_OFFSET; 
+void MyOledScreen::drawPillText(byte x, byte y, unsigned int color, unsigned int bgColor, String text) {
+  x = x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + PILL_VALUE_X_OFFSET;
   y = y + PILL_TEXT_Y_OFFSET;
 
   setTextSize(1);
 
   setCursor(x, y);
-  setTextColor(color);
-  print(String(value, DEC));
+  setTextColor(color, bgColor);
+  print(text);
 }

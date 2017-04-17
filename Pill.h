@@ -5,7 +5,7 @@
 
 class Pill {
   private:
-  
+
     byte _x;
     byte _y;
     unsigned int _color;
@@ -20,7 +20,7 @@ class Pill {
     void draw();
     void drawFocus(boolean isFocus);
     int getValue();
-    
+
     // Following method, redraw after the change
     void setValue(int value);
     void setValueToMinimum();

@@ -7,10 +7,10 @@
 CRGB leds[LED_COUNT];
 
 #if OLED_MOSI == 11 && OLED_SCLK == 13
-  // Arduino Hardware SPI (Fast)
-  MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_RST);
+// Arduino Hardware SPI (Faster)
+MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_RST);
 #else
-  MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_MOSI, OLED_SCLK, OLED_RST);
+MyOledScreen oledScreen = MyOledScreen(OLED_CS, OLED_DC, OLED_MOSI, OLED_SCLK, OLED_RST);
 #endif
 
 // TODO: build a Pill array, then work with the array
