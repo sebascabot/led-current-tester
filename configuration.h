@@ -1,7 +1,7 @@
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
 
-// LED
+// LED strip (WS2812B)
 
 #define LED_PIN         5
 #define LED_COLOR_ORDER GRB
@@ -29,12 +29,21 @@
 
 #define OLED_BACKGROUND_COLOR 0x8888
 
-// TouchPad
+// TouchPad (TTP229)
 
 #define TP_TTP229 (0xAF>>1)
 
 #define TP_KEY_COUNT     15
 #define TP_DEBOUNCE_TIME 50
+
+// Current Sensor (ACS712, aka GY-712 module)
+// ±  5 Amps - ACS712ELC-05A (185 mV / Amp)
+// ± 20 Amps - ACS712ELC-20A (100 mV / Amp)
+// ± 30 Amps - ACS712ELC-30A ( 66 mV / Amp)
+
+#define CS_ANALOG_IN_PIN A0
+#define CS_ACS_OFFSET    2500.0
+#define CS_MV_PER_AMP    185.0
 
 // MAIN
 

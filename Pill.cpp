@@ -23,6 +23,18 @@ int Pill::getValue() {
   return _value;
 }
 
+void Pill::drawFloat(float value) {
+  String valueStr = String(value * 1000, 0);
+
+  String paddingStr = "";
+
+  for (byte i = 5; valueStr.length() < i; i = i - 1) {
+    paddingStr += " ";
+  }
+
+  oledScreen.drawPillFullText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, paddingStr + valueStr);
+}
+
 void Pill::setValue(int value) {
   _value = value;
 
@@ -34,7 +46,7 @@ void Pill::setValue(int value) {
     padding += " ";    // 1 digit value (add one padding => 2 left digit padding)
   }
 
-  oledScreen.drawPillText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, padding + _value);
+  oledScreen.drawPillText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, padding + value);
 }
 
 void Pill::setValueToMinimum() {

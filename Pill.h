@@ -28,6 +28,8 @@ class Pill {
     void increaseValueBy(int amount);
     void decreaseValueBy(int amount);
 
+    // Special: Only draw (overwrite the whole pill). No value store/update.
+    void drawFloat(float value);
 };
 
 #endif

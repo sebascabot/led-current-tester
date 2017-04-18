@@ -18,13 +18,13 @@ Pill brightnessPill = Pill(0, 0, OLED_WHITE, '*', 0, 255, INIT_BRIGHTNESS);
 Pill redPill = Pill(0, 16, OLED_RED, 'R', 0, 255, INIT_RED);
 Pill greenPill = Pill(0, 32, OLED_GREEN, 'G', 0, 255, INIT_GREEN);
 Pill bluePill = Pill(0, 48, OLED_BLUE, 'B', 0, 255, INIT_BLUE);
-Pill countPill = Pill(49, 0, OLED_CYAN, '#', 0, 100, INIT_COUNT);
+Pill countPill = Pill(49, 0, OLED_YELLOW, '#', 0, 100, INIT_COUNT);
+Pill ampPill = Pill(49, 32, OLED_BLACK, ' ', 0, 5, 0);
 
 Pill *focusPill = &brightnessPill; // Initial pill with the focus
 
 void setup(void) {
   Serial.begin(9600);
-  Serial.println(redPill.getValue(), DEC);
   Serial.println("Init Led Strip ...");
 
   // Init LED Strip
@@ -45,12 +45,16 @@ void setup(void) {
   greenPill.draw();
   bluePill.draw();
   countPill.draw();
+  ampPill.draw();
 
   focusPill->drawFocus(true);
 }
 
 void loop() {
   checkKeypad();
+
+  // Update Amps measure and display the new updated value
+  ampPill.drawFloat(updatedCurrentCounter());
 }
 
 void onKeyPress (byte key) {
@@ -153,4 +157,7 @@ void showLed() {
   }
 
   FastLED.show();
+
+  // FIXME: A delay is require prior reset, in order to get more acurate reading
+  resetCurrentCounter(); // New measure, reset the counter
 }

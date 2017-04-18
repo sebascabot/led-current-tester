@@ -15,6 +15,7 @@ class MyOledScreen : public Adafruit_SSD1331 {
     void drawPill(byte x, byte y, unsigned int color, char label);
     void drawPillFocus(byte x, byte y, unsigned int color);
     void drawPillText(byte x, byte y, unsigned int color, unsigned int bgColor, String text);
+    void drawPillFullText(byte x, byte y, unsigned int color, unsigned int bgColor, String text);
 };
 
 #endif

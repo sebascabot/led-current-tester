@@ -57,3 +57,14 @@ void MyOledScreen::drawPillText(byte x, byte y, unsigned int color, unsigned int
   setTextColor(color, bgColor);
   print(text);
 }
+
+void MyOledScreen::drawPillFullText(byte x, byte y, unsigned int color, unsigned int bgColor, String text) {
+  x = x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + 1;
+  y = y + PILL_TEXT_Y_OFFSET;
+
+  setTextSize(1);
+
+  setCursor(x, y);
+  setTextColor(color, bgColor);
+  print(text);
+}
