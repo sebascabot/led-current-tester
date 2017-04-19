@@ -6,7 +6,7 @@
 #define LED_PIN         5
 #define LED_COLOR_ORDER GRB
 #define LED_CHIPSET     WS2812B
-#define LED_COUNT       100
+#define LED_COUNT       60
 
 // OLED Screen
 

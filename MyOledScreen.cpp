@@ -21,13 +21,23 @@ MyOledScreen::MyOledScreen(uint8_t CS, uint8_t RS, uint8_t RST) :
   Adafruit_GFX(TFTWIDTH, TFTHEIGHT)
 {}
 
-void MyOledScreen::drawPill(byte x, byte y, unsigned int color, char label) {
+unsigned int MyOledScreen::_getTextColor(unsigned int bgColor) {
+  switch (bgColor) {
+    case OLED_WHITE:
+    case OLED_YELLOW:
+      return OLED_BLACK;
+    default:
+      return OLED_WHITE;
+  }
+}
+
+void MyOledScreen::drawPill(byte x, byte y, unsigned int bgColor, char label) {
   x = x + PILL_LEFT_FOCUS_SIGN_SPACE;
 
-  fillRoundRect(x, y, PILL_WIDTH, PILL_HEIGHT, PILL_RADIUS, color);
+  fillRoundRect(x, y, PILL_WIDTH, PILL_HEIGHT, PILL_RADIUS, bgColor);
 
   setCursor(x + PILL_TEXT_X_OFFSET, y + PILL_TEXT_Y_OFFSET);
-  setTextColor(color == OLED_WHITE ? OLED_BLACK : OLED_WHITE); // Avoid White on White
+  setTextColor(_getTextColor(bgColor));
   setTextSize(1);
   print(label);
   print(':');
@@ -47,24 +57,24 @@ void MyOledScreen::drawPillFocus(byte x, byte y, unsigned int color) {
   fillTriangle(x1, y1, x2, y2, x3, y3, color);
 }
 
-void MyOledScreen::drawPillText(byte x, byte y, unsigned int color, unsigned int bgColor, String text) {
+void MyOledScreen::drawPillText(byte x, byte y, unsigned int bgColor, String text) {
   x = x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + PILL_VALUE_X_OFFSET;
   y = y + PILL_TEXT_Y_OFFSET;
 
   setTextSize(1);
 
   setCursor(x, y);
-  setTextColor(color, bgColor);
+  setTextColor(_getTextColor(bgColor), bgColor);
   print(text);
 }
 
-void MyOledScreen::drawPillFullText(byte x, byte y, unsigned int color, unsigned int bgColor, String text) {
+void MyOledScreen::drawPillFullText(byte x, byte y, unsigned int bgColor, String text) {
   x = x + PILL_LEFT_FOCUS_SIGN_SPACE + PILL_TEXT_X_OFFSET + 1;
   y = y + PILL_TEXT_Y_OFFSET;
 
   setTextSize(1);
 
   setCursor(x, y);
-  setTextColor(color, bgColor);
+  setTextColor(_getTextColor(bgColor), bgColor);
   print(text);
 }

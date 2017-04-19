@@ -32,7 +32,7 @@ void Pill::drawFloat(float value) {
     paddingStr += " ";
   }
 
-  oledScreen.drawPillFullText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, paddingStr + valueStr);
+  oledScreen.drawPillFullText(_x, _y, _color, paddingStr + valueStr);
 }
 
 void Pill::setValue(int value) {
@@ -46,7 +46,7 @@ void Pill::setValue(int value) {
     padding += " ";    // 1 digit value (add one padding => 2 left digit padding)
   }
 
-  oledScreen.drawPillText(_x, _y, (_color == OLED_WHITE ? OLED_BLACK : OLED_WHITE), _color, padding + value);
+  oledScreen.drawPillText(_x, _y, _color, padding + value);
 }
 
 void Pill::setValueToMinimum() {

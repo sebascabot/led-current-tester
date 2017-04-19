@@ -18,7 +18,7 @@ Pill brightnessPill = Pill(0, 0, OLED_WHITE, '*', 0, 255, INIT_BRIGHTNESS);
 Pill redPill = Pill(0, 16, OLED_RED, 'R', 0, 255, INIT_RED);
 Pill greenPill = Pill(0, 32, OLED_GREEN, 'G', 0, 255, INIT_GREEN);
 Pill bluePill = Pill(0, 48, OLED_BLUE, 'B', 0, 255, INIT_BLUE);
-Pill countPill = Pill(49, 0, OLED_YELLOW, '#', 0, 100, INIT_COUNT);
+Pill countPill = Pill(49, 0, OLED_YELLOW, '#', 0, LED_COUNT, INIT_COUNT);
 Pill ampPill = Pill(49, 32, OLED_BLACK, ' ', 0, 5, 0);
 
 Pill *focusPill = &brightnessPill; // Initial pill with the focus

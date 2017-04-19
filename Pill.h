@@ -15,6 +15,7 @@ class Pill {
     int _value;
 
   public:
+
     Pill(byte x, byte y, unsigned int color, char label, int min, int max, int value);
 
     void draw();
