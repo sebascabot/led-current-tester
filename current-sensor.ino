@@ -3,7 +3,16 @@
 float ampMean = 0;
 float ampCount = 0;
 
+unsigned long resetRequest = 0;
+
 float updatedCurrentCounter() {
+
+  if (resetRequest && millis() > resetRequest) {
+    resetRequest = 0;
+
+    ampMean = 0;
+    ampCount = 0;
+  }
 
   int rawValue = analogRead(CS_ANALOG_IN_PIN);
   float voltage = (rawValue / 1024.0) * 5000; // Gets you mV
@@ -36,6 +45,10 @@ float updatedCurrentCounter() {
 }
 
 void resetCurrentCounter() {
+  // Strategy to offset the reset by 2 sec,
+  // since near the moment of the reset Amp reading is not reliable
+  resetRequest = millis() + RESET_DELAY_MS;
+
   ampMean = 0;
   ampCount = 0;
 }

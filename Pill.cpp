@@ -7,7 +7,10 @@ extern MyOledScreen oledScreen;
 
 Pill::Pill(byte x, byte y, unsigned int color, char label, int min, int max, int value) :
   _x(x), _y(y), _color(color), _label(label), _min(min), _max(max), _value(value)
-{}
+{
+  // FIXME: Find why this is not working ?
+  // _focus = this;
+}
 
 void Pill::draw() {
   oledScreen.drawPill(_x, _y, _color, _label);
@@ -57,12 +60,7 @@ void Pill::setValueToMaximum() {
   setValue(_max);
 }
 
-void Pill::increaseValueBy(int amount) {
-  setValue(min(_max, _value + amount));
+void Pill::shiftValueBy(int amount) {
+  setValue(min(_max, max(_min, _value + amount)));
 }
-
-void Pill::decreaseValueBy(int amount) {
-  setValue(max(_min, _value - amount));
-}
-
 

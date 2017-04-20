@@ -59,8 +59,13 @@ void loop() {
 
 void onKeyPress (byte key) {
   switch (key) {
+    case 6:
+      // Count Pill (Yellow pad)
+      updateFocus(&countPill);
+      break;
+
     case 1:
-      // Brightness Pill
+      // Brightness Pill (White pad)
       updateFocus(&brightnessPill);
       break;
 
@@ -79,49 +84,44 @@ void onKeyPress (byte key) {
       updateFocus(&bluePill);
       break;
 
-    case 6:
-      // Count Pill
-      updateFocus(&countPill);
-      break;
-
-    // ± 1
-    case 5:
-      focusPill->increaseValueBy(1);
-      break;
-    case 7:
-      focusPill->decreaseValueBy(1);
-      break;
-
-    // ± 5
-    case 9:
-      focusPill->increaseValueBy(5);
-      break;
-    case 8:
-      focusPill->decreaseValueBy(5);
-      break;
-
-    // ± 10
-    case 11:
-      focusPill->increaseValueBy(10);
-      break;
-    case 12:
-      focusPill->decreaseValueBy(5);
-      break;
-
-    // ± 25
-    case 10:
-      focusPill->increaseValueBy(25);
-      break;
-    case 13:
-      focusPill->decreaseValueBy(25);
-      break;
-
-    // Set Min/Max
+    // Minimum ~ Maximum
     case 14: // Min
       focusPill->setValueToMinimum();
       break;
     case 15: // Max
       focusPill->setValueToMaximum();
+      break;
+
+    // ± 1
+    case 5:
+      focusPill->shiftValueBy(1);
+      break;
+    case 7:
+      focusPill->shiftValueBy(-1);
+      break;
+
+    // ± 5
+    case 11:
+      focusPill->shiftValueBy(5);
+      break;
+    case 12:
+      focusPill->shiftValueBy(-5);
+      break;
+
+    // ± 10
+    case 9:
+      focusPill->shiftValueBy(10);
+      break;
+    case 8:
+      focusPill->shiftValueBy(-10);
+      break;
+
+    // ± 25
+    case 10:
+      focusPill->shiftValueBy(20);
+      break;
+    case 13:
+      focusPill->shiftValueBy(-20);
       break;
   }
 

@@ -6,7 +6,7 @@
 #define LED_PIN         5
 #define LED_COLOR_ORDER GRB
 #define LED_CHIPSET     WS2812B
-#define LED_COUNT       60
+#define LED_COUNT       300
 
 // OLED Screen
 
@@ -45,13 +45,15 @@
 #define CS_ACS_OFFSET    2500.0
 #define CS_MV_PER_AMP    185.0
 
+#define RESET_DELAY_MS   2000
+
 // MAIN
 
 // Default initial value
-#define INIT_BRIGHTNESS 200
+#define INIT_BRIGHTNESS 120
 #define INIT_RED        25
-#define INIT_GREEN      50
-#define INIT_BLUE       100
-#define INIT_COUNT      1
+#define INIT_GREEN      75
+#define INIT_BLUE       150
+#define INIT_COUNT      10
 
 #endif
