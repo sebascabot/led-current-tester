@@ -11,25 +11,25 @@ Arduino sketch of a setup use to measure current consumption of WS2812B led
 ## The hardware Setup
 
 - Arduino UNO R3
-- Capacitive touch pad (15 key) with TTP229
+- Capacitive touch pad (15 key) with TTP229 module
 - OLED RGB Screen
-- WS2812B LED strip
-- TODO: ACS712 Current Sensors (5A ACS712ELCTR-05B) aka GY-712
+- RGB LED strip of 300 × ws2812b
+- ACS712 Current Sensors aka GY-712, model: 5A ACS712ELCTR-05B
 
-### Component: RGB LED Strip --- ws2812b
+### Component: RGB LED Strip — ws2812b
 
 This setup has been build to measure current consumption and behavior of a 300
 RGB LED strip of ws2812b. In order to drive the LED, the [FastLED][10] library
 is used.
 
-### Component: Current sensor --- ACS712 ±5A
+### Component: Current sensor — ACS712 ±5A
 
 The datasheet [ACS712 - Allegro Microsystems][1]
 
 The Arduino code I used: [How to use the ACS712 with an Arduino | Henry's Bench][2]
 
 
-### Component: Touch Pad --- TTP229 with Capacitive Touch Pad
+### Component: Touch Pad — TTP229 with Capacitive Touch Pad
 
 I used a [16 Keys Capacitive touch TTP229 I2C module][3] in combinaison
 with [Capacitive Touch Disk Pad][5].
