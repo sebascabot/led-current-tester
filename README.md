@@ -16,6 +16,10 @@ Arduino sketch of a setup use to measure current consumption of WS2812B led
 - RGB LED strip of 300 × ws2812b
 - ACS712 Current Sensors aka GY-712, model: 5A ACS712ELCTR-05B
 
+## Some results
+
+[Results][20]
+
 ### Component: RGB LED Strip — ws2812b
 
 This setup has been build to measure current consumption and behavior of a 300
@@ -56,4 +60,6 @@ doc.
 [9]: https://github.com/adafruit/Adafruit-GFX-Library
 [10]: http://fastled.io/
 [11]: https://github.com/FastLED/FastLED
+
+[20]: ./results.md
 
