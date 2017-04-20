@@ -12,6 +12,8 @@
 - Brightness = 200, Red = 255, Green = 0, Blue = 0: *3290 mA*
 - Brightness = 150, Red = 255, Green = 0, Blue = 0: *2445 mA*
 
+---
+
 - Brightness = 150, Red = 150, Green = 0, Blue = 0: *1455 mA*
 - Brightness = 150, Red = 100, Green = 0, Blue = 0: *0975 mA*
 - Brightness = 150, Red = 050, Green = 0, Blue = 0: *0490 mA*
@@ -21,6 +23,8 @@
 - Brightness = 255, Red = 0, Green = 255, Blue = 0: *2815 mA*
 - Brightness = 200, Red = 0, Green = 255, Blue = 0: *2220 mA*
 - Brightness = 150, Red = 0, Green = 255, Blue = 0: *1680 mA*
+
+----
                                       
 - Brightness = 150, Red = 0, Green = 150, Blue = 0: *0995 mA*
 - Brightness = 150, Red = 0, Green = 100, Blue = 0: *0670 mA*
@@ -28,23 +32,27 @@
 
 ### Blue only
 
-- Brightness = 255, Red = 0, Green = 0, Blue = 255: *3530 mA*
-- Brightness = 200, Red = 0, Green = 0, Blue = 255: *2865 mA*
-- Brightness = 150, Red = 0, Green = 0, Blue = 255: *2230 mA*
+    - Brightness = 255, Red = 0, Green = 0, Blue = 255: *3530 mA*
+    - Brightness = 200, Red = 0, Green = 0, Blue = 255: *2865 mA*
+    - Brightness = 150, Red = 0, Green = 0, Blue = 255: *2230 mA*
+
+    -----
                                                 
-- Brightness = 150, Red = 0, Green = 0, Blue = 150: *1355 mA*
-- Brightness = 150, Red = 0, Green = 0, Blue = 100: *0915 mA*
-- Brightness = 150, Red = 0, Green = 0, Blue = 050: *0452 mA*
+    - Brightness = 150, Red = 0, Green = 0, Blue = 150: *1355 mA*
+    - Brightness = 150, Red = 0, Green = 0, Blue = 100: *0915 mA*
+    - Brightness = 150, Red = 0, Green = 0, Blue = 050: *0452 mA*
 
 ### White
 
-* Brightness = 255, Red = 255, Green = 255, Blue = 255: *7450 mA*
-* Brightness = 200, Red = 255, Green = 255, Blue = 255: *6260 mA*
-* Brightness = 150, Red = 255, Green = 255, Blue = 255: *5055 mA*
+  - Brightness = 255, Red = 255, Green = 255, Blue = 255: *7450 mA*
+  - Brightness = 200, Red = 255, Green = 255, Blue = 255: *6260 mA*
+  - Brightness = 150, Red = 255, Green = 255, Blue = 255: *5055 mA*
+
+-----
                                                 
-* Brightness = 150, Red = 150, Green = 150, Blue = 150: *3145 mA*
-* Brightness = 150, Red = 100, Green = 100, Blue = 100: *2035 mA*
-* Brightness = 150, Red = 050, Green = 050, Blue = 050: *0850 mA*
+  - Brightness = 150, Red = 150, Green = 150, Blue = 150: *3145 mA*
+  - Brightness = 150, Red = 100, Green = 100, Blue = 100: *2035 mA*
+  - Brightness = 150, Red = 050, Green = 050, Blue = 050: *0850 mA*
 
 ## 300 LED strip (5 meters)
 
